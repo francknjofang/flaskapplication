@@ -1,6 +1,5 @@
     Application de Cartes Mémoire
 
-     par: EYOUMENI Durelle et FESSI Durand Henri
 ----------------------------------------------------------------------------------------------------------------------------
 
     Introduction
