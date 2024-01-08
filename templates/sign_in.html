@@ -1,0 +1,32 @@
+
+{% block titre %}
+<title>conexion</title>
+{% endblock %}
+<link rel="stylesheet" href="../static/styles.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% block body %}
+
+  <div id="div" class="d-flex justify-content-center align-items-center" style="height: 100vh; background-color:  rgba(47, 49, 66, 0.3); color: white;">
+      <form method="POST" action="/login/user" class="border rounded-3 p-4" style="width: 400px; background-color:rgba(136, 145, 136, 0.829);">
+          <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-labelledby="exampleInputEmail1Label" name="Email">
+          </div>
+          <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" aria-labelledby="exampleInputPassword1Label" name="password">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="mb-3">
+              <p id="emailHelp">Vous n'êtes pas encore inscrit ? Cliquez <a href="/" style="color: white">ici</a>.</p>
+              </div>{% if error %} <p class="fw-bold" style="color: rgb(147, 15, 15);">{{error}}</p>{% endif %}
+
+      </form>
+    </div>
+      
+      
+      
+</div>
+{% endblock %}

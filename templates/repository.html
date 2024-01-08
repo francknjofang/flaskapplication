@@ -1,0 +1,34 @@
+
+{% extends 'base.html' %}
+
+{% block titre %}
+    <title>Cartes par module</title>
+{% endblock %}
+
+{% block body %}
+    <!-- Titre de la page -->
+    <h1>Liste des cartes par module :</h1>
+
+    <!-- Boucle pour afficher les cartes -->
+    {% for card in posts %}
+        <div class="bg-body-tertiary border rounded-3 p-2">
+            <!-- Titre du module -->
+            <h2 class="fw-bold mb-0">{{ card.module }}</h2>
+            
+            <!-- Informations sur la publication -->
+            <small>
+                Publié le {{ card.date_posted }}
+            </small>
+            <br><br>
+            
+            <!-- Bouton pour voir la carte -->
+            <a class="btn btn-success btn-lg" href="/memory_card?matiere={{ card.module }}">Voir la carte</a>
+            
+            <!-- Bouton de modification (si l'utilisateur est admin) -->
+            {% if username == "admin" %}
+                <a class="btn btn-primary btn-lg" href="/memory/update/{{card.module}}/{{card.id}}">Modifier</a>
+            {% endif %}
+        </div>
+        <br>
+    {% endfor %}
+{% endblock %}

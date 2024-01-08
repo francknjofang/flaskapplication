@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block titre %}
+    <title>Questions</title>
+{% endblock %}
+
+{% block body %}
+    <!-- Titre de la page -->
+    <br>
+    <h4>Evaluation pratique de mes connaissances</h4><br>
+
+    <!-- Formulaire pour afficher les questions et réponses -->
+    <form id="quizForm" method="POST" action="/submit_answers">
+
+        {% for card in cards %}
+            <!-- Section pour chaque carte/question -->
+            <div class="bg-body-tertiary border rounded-3 p-4">
+              
+                <h5>{{ card.question }}</h5><br><br>
+                <!-- Affichage des réponses -->
+                {% for answer in card.shuffled_answers %}
+                    <input type="radio" id="choice_{{ loop.index }}_{{ card.id }}" name="choice_{{ card.id }}" value="{{ answer }}">
+                    <label for="choice_{{ loop.index }}_{{ card.id }}">{{ answer }}</label><br><br>
+                {% endfor %}
+
+                <!-- Boutons de modification et de suppression (si l'utilisateur est admin) -->
+                {% if username == "admin" %}
+                    <a class="btn btn-primary btn-lg" href="/memory/update/{{ card.id }}">Modifier</a>
+                    <a class="btn btn-danger btn-lg delete-btn" href="/delete_memory_card/{{ card.id }}">Supprimer</a><br><br>
+                {% endif %}
+
+                <!-- Bouton de suppression (caché par défaut) -->
+                <a class="btn btn-danger btn-lg delete-btn d-none" href="/delete_memory_card/{{ card.id }}">Supprimer</a><br><br>
+            </div><br>
+
+            <!-- Bouton de vérification (affiché pour la dernière carte) -->
+            <button class="btn btn-primary btn-lg verify-btn" type="submit" style="background-color: green; {% if loop.last %}display: block;{% else %}display: none;{% endif %}">Vérifier</button>
+           
+        {% endfor %}
+        
+    </form>
+
+    <!-- Formulaire pour consulter l'évolution -->
+    <div class="d-flex justify-content-end">
+        <form id="myForm" action="/rapport?module={{module}}&name={{username}}" method="POST">
+            <!-- Données cachées pour le formulaire -->
+            <input type="hidden" name="verte" id="verte">
+            <input type="hidden" name="rouge" id="rouge">
+            {% set mod = false %}
+            {% for card in cards %}
+                {% if not mod %}
+                    <input type="hidden" name="mod" id="mod" value="{{ card.module }}">
+                    {% set mod = true %}
+                {% endif %}
+            {% endfor %}
+            <input type="hidden" name="dateCourante" id="dateCourante">
+            <!-- Bouton pour consulter l'évolution -->
+            <button class="btn btn-primary btn-lg delete-btn mb-3" style="background-color: #5e686f;" type="submit" onclick="remplirFormulaire()">consulter votre evolution</button>
+        </form>
+    </div>
+
+    <!-- Import des fichiers JavaScript -->
+    <script src="../static/functions.js"></script>
+    <script src="../static/form.js"></script>
+    
+{% endblock %}
+

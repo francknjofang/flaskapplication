@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block titre %}
+    <title>connexion</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <!-- Titre de la page -->
+        <div class="px-4 pt-5 my-5 text-center border-bottom">
+            <h4 class="display-4 fw-bold">Voici votre recapitulatif en {{module}} </h4>
+            <br>
+            <!-- Section pour afficher les statistiques -->
+            <div class="row row-cols-1 row-cols-md-4 mb-3 text-center">
+                <!-- score-->
+                <div class="col">
+                  <div class="card mb-4 rounded-3 shadow-sm border-success">
+                      <!-- Titre et contenu des statistiques -->
+                      <div class="card-header py-3 text-white bg-success border-success">
+                          <h4 class="my-0 fw-normal">score</h4>
+                      </div>
+                      <div class="card-body">
+                          <h1 class="card-title pricing-card-title">{{nb_reponses_vertes}}<small class="text-muted fw-light">/{{total_cards}}</small></h1>
+                          <ul class="list-unstyled mt-3 mb-4">
+                              <li>pour un echec de {{nb_reponses_rouges}} question(s)</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm border-success">
+                        <!-- Titre et contenu des statistiques -->
+                        <div class="card-header py-3 text-white bg-success border-success">
+                            <h4 class="my-0 fw-normal">Réussite </h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">{{counters.vertes}}<small class="text-muted fw-light">/{{counters.update_review_count }}</small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Chaque carte réussie est une preuve de votre efficacité</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Statistiques de reports -->
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm border-danger">
+                        <!-- Titre et contenu des statistiques -->
+                        <div class="card-header py-3 text-white bg-danger border-danger">
+                            <h4 class="my-0 fw-normal">Reports</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">{{counters.rouges}}<small class="text-muted fw-light">/{{counters.update_review_count }}</small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Chaque carte reportée est une nouvelle occasion de mieux maîtriser un sujet !</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Informations générales -->
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm border-secondary">
+                        <!-- Titre et contenu des statistiques -->
+                        <div class="card-header py-3 text-white bg-secondary border-secondary">
+                            <h4 class="my-0 fw-normal">Infos</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Liste des informations -->
+                            <ul class="list-group list-group-flush" style="text-align: left;width: 100%;">
+                                <li style="width: 100%;position: relative;" class="list-group-item">Vos tentatives : <span style="position: absolute;right: 12px;">{{counters.update_review_count }}</span></li>
+                                <li style="width: 100%;position: relative;" class="list-group-item">Total de cartes : <span style="position: absolute;right: 12px;">{{total_cards}}</span></li>
+                                <!-- Prochaine date (si des cartes sont en attente) -->
+                                <li style="width: 100%;position: relative;" class="list-group-item">
+                                    {% if counters.rouges > 0 or counters.vertes > 0 %}
+                                        Prochain jour : {{result}}
+                                    {% else %}
+                                        <i>Aucune carte n'est en attente  </i>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des cartes -->
+
+    <!-- Section pour afficher un tableau de cartes -->
+<div class="bg-body-tertiary border rounded-3 p-4">
+  <!-- Conteneur réactif pour la table -->
+  <div class="table-responsive">
+      <!-- Tableau pour afficher les informations des cartes -->
+      <table class="table table-striped mt-5 table-hover table-borderless table-sm align-middle">
+          <!-- En-tête du tableau -->
+          <thead>
+              <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Création(s)</th>
+                  <th scope="col">Répétition(s)</th>
+                  <th scope="col">Interval(s)</th>
+                  <th scope="col">Question(s)</th>
+                  <th scope="col">Réponse(s)</th>
+              </tr>
+          </thead>
+          <!-- Corps du tableau -->
+          <tbody>
+              {% for card in cards %}
+                  <tr>
+                      <!-- Informations sur chaque carte -->
+                      <th scope="row">{{card.id}}</th> <!-- ID de la carte -->
+                      <td>{{card.date_posted}}</td> <!-- Date de création de la carte -->
+                      <td>{{last_date}}</td> <!-- Dernière date de révision de la carte -->
+                      <!-- Condition pour afficher l'intervalle -->
+                      {% if nb_reponses_vertes > nb_reponses_rouges%}
+                          <td class="text-danger">3</td> <!-- Si la carte a été réussie -->
+                      {% else %}
+                          <td class="text-danger">1</td> <!-- Si la carte n'a pas été réussie -->
+                      {% endif %}
+                      <td>{{card.question}}</td> <!-- La question de la carte -->
+                      <td>{{card.correct_answer}}</td> <!-- La réponse correcte de la carte -->
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      <!-- Bouton pour ajouter de nouvelles cartes -->
+      {% if username == "admin" %}
+          <a href="/add" type="button" class="w-100 btn btn-lg btn-secondary">Créez de nouvelles cartes</a>
+      {% endif %}
+  </div>
+</div>
+      
+      
+        
+{% endblock %}

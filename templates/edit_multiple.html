@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block titre %}
+    <title>Modifier les cartes du module</title>
+{% endblock %}
+
+{% block body %}
+    <!-- Titre de la page -->
+    <h4>Mise à jour des cartes du module "{{ cards[0].module }}" :</h4>
+    
+    <!-- Formulaire pour la mise à jour des cartes -->
+    <div class="d-flex justify-content-center align-items-center" style="background-color: rgba(44, 49, 86, 0.281);">
+        <form action="/memory/update/{{ cards[0].module}}/{{ cards[0].id }}" method="POST" class="border rounded-3 p-4" style="width: 800px; background-color: rgba(255, 255, 255, 0.866)">
+            
+            <!-- Boucle pour afficher les cartes à modifier -->
+            {% for card in cards %}
+                <!-- Titre de la carte -->
+                <h5>Carte : {{ card.id }}</h5>
+                
+                <!-- Champ pour la question -->
+                <div class="form-floating">
+                    <textarea class="form-control" name="question_{{ card.id }}" id="question_{{ card.id }}" style="height: 100px">{{ card.question }}</textarea>
+                    <label for="question_{{ card.id }}">Question</label>
+                </div><br>
+                
+                <!-- Champ pour la première réponse -->
+                <div class="form-floating">
+                    <textarea class="form-control" name="answer1_{{ card.id }}" id="answer1_{{ card.id }}" style="height: 100px">{{ card.answer_1 }}</textarea>
+                    <label for="answer1_{{ card.id }}">Réponse 1</label>
+                </div><br>
+        
+                <!-- Champ pour la deuxième réponse -->
+                <div class="form-floating">
+                    <textarea class="form-control" name="answer2_{{ card.id }}" id="answer2_{{ card.id }}" style="height: 100px">{{ card.answer_2 }}</textarea>
+                    <label for="answer2_{{ card.id }}">Réponse 2</label>
+                </div><br>
+        
+                <!-- Champ pour la réponse correcte -->
+                <div class="form-floating">
+                    <textarea class="form-control" name="answer3_{{ card.id }}" id="answer3_{{ card.id }}" style="height: 100px">{{ card.correct_answer }}</textarea>
+                    <label for="answer3_{{ card.id }}">Réponse correcte</label>
+                </div><br><br>
+            {% endfor %}
+            
+            <!-- Bouton pour soumettre les modifications -->
+            <button type="submit" class="btn btn-primary">Modifier toutes les cartes</button>
+            
+            <!-- Affichage d'une erreur s'il y en a une -->
+            {% if error %}
+                <p class="fw-bold" style="color: rgb(147, 15, 15);">{{ error }}</p>
+            {% endif %}
+        </form>
+        <hr>
+    </div>
+{% endblock %}

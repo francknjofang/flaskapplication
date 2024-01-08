@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block titre %}
+<title>edit memory card</title>
+{% endblock %}
+
+{% block body %}
+    <h4>Mise à jour du questionnaire :</h4>
+    <div class="d-flex justify-content-center align-items-center" style="background-color: rgba(44, 49, 86, 0.281);">
+        <form action="/memory/update/{{ card.id }}" method="POST" class="border rounded-3 p-4" style="width: 800px; background-color: rgba(255, 255, 255, 0.866)">
+            <div class="mb-3">
+                <label for="module" class="form-label">{{ card.module }}</label>
+                <input type="text" class="form-control" id="module" name="module" value="{{ card.module }}" aria-describedby="emailHelp">
+            </div><br>
+            <div class="form-floating">
+                <textarea class="form-control" name="question" placeholder="{{ card.question }}" id="floatingTextarea" style="height: 100px">{{ card.question }}</textarea>
+                <label for="floatingTextarea">{{ card.question }}</label>
+            </div><br>
+            
+            <div class="form-floating">
+                <textarea class="form-control" name="answer1" placeholder="reponse 1" id="floatingTextarea1" style="height: 100px">{{ card.answer_1 }}</textarea>
+                <label for="floatingTextarea1">reponse 1</label>
+            </div><br>
+            <div class="form-floating">
+                <textarea class="form-control" name="answer2" placeholder="reponse 2" id="floatingTextarea2" style="height: 100px">{{ card.answer_2 }}</textarea>
+                <label for="floatingTextarea2">reponse 2</label>
+            </div><br>
+            <div class="form-floating">
+                <textarea class="form-control" name="answer3" placeholder="Réponse reponse correcte ici" id="floatingTextarea3" style="height: 100px">{{ card.correct_answer }}</textarea>
+                <label for="floatingTextarea3">Entrer la réponse correcte ici</label>
+            </div><br>
+            <button type="submit" class="btn btn-primary">Modifier</button>
+            {% if error %} <p class="fw-bold" style="color: rgb(147, 15, 15);">{{error}}</p>{% endif %}
+        </form>
+        <hr>
+    </div>
+
+    
+{% endblock %}
